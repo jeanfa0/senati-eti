@@ -275,14 +275,39 @@
         }
 
         @media (max-width: 768px) {
+            /* Disable heavy animations on mobile to save battery and guarantee 60fps scrolling */
+            body::before, body::after {
+                animation: none !important;
+                display: none !important;
+            }
+            
+            /* Disable performance-heavy backdrop blur on mobile GPUs, replacing with solid high-performance fallback */
+            .glass, .container, .section-container, .navbar, .timeline-content, .content-card, 
+            .sidebar-card, .form-card, .req-card, .turno-card, .beneficio-card, .canal-card, 
+            .about-card, .mv-card, .partner-card {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                background-color: rgba(9, 18, 34, 0.96) !important;
+            }
+
+            .container, .section-container {
+                padding: 30px 16px !important;
+                border-radius: 16px !important;
+            }
+
+            /* Defer rendering of off-screen elements on mobile for lightning-fast initial load */
+            .timeline-card, .about-card, .mv-card, .beneficio-card, .partner-card, .req-card, 
+            .turno-card, .sidebar-card, .footer {
+                content-visibility: auto;
+                contain-intrinsic-size: 0 250px;
+            }
+
             .navbar { padding: 0 20px; }
             .navbar-links { display: none; }
             .navbar-cta-desktop { display: none; }
             .navbar-hamburger { display: flex; }
             .footer { padding: 40px 20px; flex-direction: column; height: auto; gap: 24px; text-align: center; }
             .footer-contacts { flex-wrap: wrap; justify-content: center; }
-            .section-container { padding: 0 20px; }
-            .breadcrumb-container { padding: 0 20px; }
             .carreras-grid { grid-template-columns: 1fr; }
         }
         
@@ -306,9 +331,9 @@
     {{ $slot }}
     <x-footer />
     
-    <!-- GSAP & ScrollTrigger CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- GSAP & ScrollTrigger CDN (Deferred for lightning-fast mobile parsing) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
     
     <script>
         // Register ScrollTrigger plugin
