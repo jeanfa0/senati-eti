@@ -275,7 +275,27 @@
         }
 
         @media (max-width: 768px) {
-            /* Disable heavy animations on mobile to save battery and guarantee 60fps scrolling */
+            /* Force all elements to be static, disable all animations, transitions, and transforms */
+            *, *::before, *::after {
+                transition: none !important;
+                animation: none !important;
+                transform: none !important;
+            }
+
+            .reveal, .timeline-item, .partner-chip, .canal-card, .turno-card, .beneficio-card, .form-wrapper, .hero-stat {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+            }
+            
+            /* Reset all hover transitions, scale-ups, filters and shadow changes on mobile */
+            a:hover, button:hover, div:hover, span:hover, img:hover {
+                transform: none !important;
+                box-shadow: none !important;
+                filter: none !important;
+            }
+
+            /* Disable heavy background glow elements on mobile to save battery and guarantee 60fps scrolling */
             body::before, body::after {
                 animation: none !important;
                 display: none !important;
@@ -2005,6 +2025,17 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", () => {
+        // Disable GSAP scroll triggers and timelines on mobile for static loading
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll(".impact-number").forEach(stat => {
+                const target = stat.getAttribute("data-target");
+                const prefix = stat.getAttribute("data-prefix") || "";
+                const suffix = stat.getAttribute("data-suffix") || "";
+                stat.textContent = prefix + target + suffix;
+            });
+            return;
+        }
+
         // 1. Hero Load Entrance
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         tl.fromTo(".hero-pill", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.8 })
