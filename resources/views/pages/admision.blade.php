@@ -1155,6 +1155,17 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", () => {
+        // Disable GSAP scroll triggers and timelines on mobile for static loading
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll(".stat-number").forEach(stat => {
+                const target = stat.getAttribute("data-target");
+                const prefix = stat.getAttribute("data-prefix") || "";
+                const suffix = stat.getAttribute("data-suffix") || "";
+                stat.textContent = prefix + target + suffix;
+            });
+            return;
+        }
+
         // 1. Hero Load Entry Animation
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         tl.fromTo(".hero-pill", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.8 })

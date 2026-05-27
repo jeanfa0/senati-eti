@@ -627,6 +627,9 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", () => {
+        // Disable GSAP on mobile for static loading
+        if (window.innerWidth <= 768) return;
+
         // 1. Hero Load Entrance
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         tl.fromTo(".banner-pill", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.8 })

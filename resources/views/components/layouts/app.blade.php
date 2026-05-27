@@ -275,7 +275,27 @@
         }
 
         @media (max-width: 768px) {
-            /* Disable heavy animations on mobile to save battery and guarantee 60fps scrolling */
+            /* Force all elements to be static, disable all animations, transitions, and transforms */
+            *, *::before, *::after {
+                transition: none !important;
+                animation: none !important;
+                transform: none !important;
+            }
+
+            .reveal, .timeline-item, .partner-chip, .canal-card, .turno-card, .beneficio-card, .form-wrapper, .hero-stat {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+            }
+            
+            /* Reset all hover transitions, scale-ups, filters and shadow changes on mobile */
+            a:hover, button:hover, div:hover, span:hover, img:hover {
+                transform: none !important;
+                box-shadow: none !important;
+                filter: none !important;
+            }
+
+            /* Disable heavy background glow elements on mobile to save battery and guarantee 60fps scrolling */
             body::before, body::after {
                 animation: none !important;
                 display: none !important;

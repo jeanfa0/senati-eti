@@ -853,6 +853,18 @@ body{
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // Disable all GSAP scroll triggers and timelines on mobile for a completely static load
+    if (window.innerWidth <= 768) {
+        // Set fallback values instantly for static mobile view
+        document.querySelectorAll(".stat-number").forEach(stat => {
+            const target = stat.getAttribute("data-target");
+            const prefix = stat.getAttribute("data-prefix") || "";
+            const suffix = stat.getAttribute("data-suffix") || "";
+            stat.textContent = prefix + target + suffix;
+        });
+        return;
+    }
+
     // 1. Hero Load Entrance
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
     tl.set(".career-left.reveal, .career-right.reveal", { opacity: 1 })
